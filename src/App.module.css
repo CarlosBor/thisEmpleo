@@ -1,0 +1,9 @@
+.main{
+    display:grid;
+    grid-template-columns: 1fr 3fr 1fr;
+}
+
+.workLinkContainer{
+    grid-column-start: 3;
+    grid-column-end: 4;
+}

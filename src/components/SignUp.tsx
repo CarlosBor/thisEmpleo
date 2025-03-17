@@ -1,8 +1,9 @@
 import { signInWithPopup } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
-import { auth } from "../../firebaseConfig";
+import { auth, db } from "../../firebaseConfig";
 import { onAuthStateChanged, getAuth, signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 
 const Signup = () => {
     const [user, setUser] = useState<any | null>(null);
@@ -52,6 +53,48 @@ const Signup = () => {
         }
      
   };
+//   TESTING
+//   TESTING
+//   TESTING
+const saveTextData = async (text:any) => {
+    try {
+      await addDoc(collection(db, "testing"), {
+        content:text,
+        createdAt: new Date(),
+      });
+      console.log("Text saved!");
+    } catch (error) {
+      console.error("Oh no :_(", error);
+    }
+  };
+
+const fetchTextData = async () => {
+    const querySnapshot = await getDocs(collection(db, "testing"));
+    let content;
+    querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+        content = doc.data().content
+    });
+    return content;
+};
+
+  const [infoGuardar, setInfoGuardar] = useState("");
+  const [storedText, setStoredText] = useState("")
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const {name, value} = e.target;
+    setInfoGuardar(value);
+};
+  const testStorage = () => {
+    saveTextData(infoGuardar);
+  }
+
+  const testRetrieval = async () => {
+    let contenido = await fetchTextData();
+    setStoredText(contenido);
+  }
+//   TESTING
+//   TESTING
+//   TESTING
   return (
     <>
         <button
@@ -74,6 +117,11 @@ const Signup = () => {
             <p>{user ? `Logged in as: ${user.email}` : "Not logged in"}</p>
             <button onClick={signOutOfGoogle}>Logout Button</button>
         </>
+        <button onClick={testStorage}>Testing storage</button>
+        <input type="text" name="storage" id="storage" value={infoGuardar} onChange = {handleChange}/>
+        <button onClick={testRetrieval}>Testing retrieval</button>
+        <p>El texto guardado es: {storedText}</p>
+        <p>El texto a guardar es: {infoGuardar}</p>
     </>
   );
 };

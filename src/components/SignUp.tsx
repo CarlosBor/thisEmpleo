@@ -1,9 +1,8 @@
-import { signInWithPopup } from "firebase/auth";
-import { GoogleAuthProvider } from "firebase/auth";
-import { auth, db } from "../../firebaseConfig";
-import { onAuthStateChanged, getAuth, signOut } from "firebase/auth";
+import { onAuthStateChanged, getAuth } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import { signOutOfGoogle, SignUpWithGoogle } from "../api/fireBaseLogin";
+import { setNamedDocument, getNamedDocument } from "../api/firebaseDb";
+import { TextoDocument } from "../types/interfaces";
 
 const Signup = () => {
     const [user, setUser] = useState<any | null>(null);
@@ -16,85 +15,23 @@ const Signup = () => {
         return () => unsubscribe();
     }, []);
 
-    const signOutOfGoogle = async () => {
-        const auth = getAuth();
-        
-        if (!auth.currentUser) {
-            console.log("No user is currently signed in.");
-            return;
-        }
-
-        try {
-            await signOut(auth);
-            console.log("Signed out successfully");
-        } catch (error) {
-            console.error("Sign out error:", error);
-        }
-    };
-
-  const SignUpWithGoogle = async () => {
-    try {
-        const provider = new GoogleAuthProvider();
-        const result=await signInWithPopup(auth, provider)
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        if (!credential){
-            console.error("Error in user Credential")
-            return
-        }
-        const token = credential.accessToken;
-        const user = result.user;
-        console.log(user,token)
-       
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (error:any) {
-            console.log("Error found", error);
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            console.log("Credential error", credential);
-        }
-     
-  };
-//   TESTING
-//   TESTING
-//   TESTING
-const saveTextData = async (text:any) => {
-    try {
-      await addDoc(collection(db, "testing"), {
-        content:text,
-        createdAt: new Date(),
-      });
-      console.log("Text saved!");
-    } catch (error) {
-      console.error("Oh no :_(", error);
-    }
-  };
-
-const fetchTextData = async () => {
-    const querySnapshot = await getDocs(collection(db, "testing"));
-    let content;
-    querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
-        content = doc.data().content
-    });
-    return content;
-};
-
   const [infoGuardar, setInfoGuardar] = useState("");
-  const [storedText, setStoredText] = useState("")
+  const [storedText, setStoredText] = useState("");
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = e.target;
+    const {value} = e.target;
     setInfoGuardar(value);
 };
   const testStorage = () => {
-    saveTextData(infoGuardar);
+    setNamedDocument("textos", infoGuardar, {texto:"Wowie"});
   }
 
   const testRetrieval = async () => {
-    let contenido = await fetchTextData();
-    setStoredText(contenido);
+    let contenido = await getNamedDocument<TextoDocument>("textos", infoGuardar)
+    if(contenido!=null){
+      setStoredText(contenido.texto);
+    }
   }
-//   TESTING
-//   TESTING
-//   TESTING
+
   return (
     <>
         <button

@@ -19,7 +19,7 @@ const AddLinkPrompt = (props:AddLinkPromptProps) =>{
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         //Usage of API
-        setNamedDocument()
+        setNamedDocument("thisEmpleo", props.type, formData);
         console.log("Submitted Data:", formData);
     };
 

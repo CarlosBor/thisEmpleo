@@ -14,10 +14,20 @@ function App() {
   return (
     <div className={style.main}>
       <CardColumn>
-        <WorkLinks/>
+        <WorkLinks
+          type="searchQueries"
+        />
       </CardColumn>
-      <CardColumn><p>df</p></CardColumn>
-      <CardColumn><p>gh</p></CardColumn>
+      <CardColumn>
+        <WorkLinks
+            type="storedOffers"
+          />
+      </CardColumn>
+      <CardColumn>
+        <WorkLinks
+            type="SentOffers"
+          />
+      </CardColumn>
       <div className={style.workLinkContainer}>
         <Signup/>
       </div>

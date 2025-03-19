@@ -1,14 +1,12 @@
 import style from './AddLinkPrompt.module.css'
-import { useDispatch } from 'react-redux';
-import { toggle } from '../store';
 import { useState } from 'react';
+import { AddLinkPromptProps } from '../types/interfaces';
 
-const AddLinkPrompt = () =>{
+const AddLinkPrompt = (props:AddLinkPromptProps) =>{
     const [formData, setFormData] = useState({
         name:"",
         link:"",
     });
-    const dispatch = useDispatch();
     
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -21,26 +19,24 @@ const AddLinkPrompt = () =>{
         e.preventDefault();
         console.log("Submitted Data:", formData);
     };
-    const handleToggle = (e: React.FormEvent<HTMLDivElement>) =>{
-        if(e.target === e.currentTarget){
-            dispatch(toggle())
-        }
-    }
+
     return(
-        <div className={style.backDrop} onClick={handleToggle}>
-            <div className={style.addLinkCard}>
-                <h2>Header</h2>
-                <form className={style.addLinkForm} onSubmit={handleSubmit}>
-                    <label>
-                        Name:
-                        <input type="text" name="name" value={formData.name} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Link:
-                        <input type="text" name="link" value={formData.link} onChange={handleChange}/>
-                    </label>
-                    <button>Add</button>
-                </form>
+        <div className={`${props.visibility ? '' : style.hidden}`}>
+            <div className={style.backDrop} onClick={props.hideVisibility} >
+                <div className={style.addLinkCard} onClick={(e) => e.stopPropagation()}>
+                    <h2>Header</h2>
+                    <form className={style.addLinkForm} onSubmit={handleSubmit}>
+                        <label>
+                            Name:
+                            <input type="text" name="name" value={formData.name} onChange={handleChange} />
+                        </label>
+                        <label>
+                            Link:
+                            <input type="text" name="link" value={formData.link} onChange={handleChange}/>
+                        </label>
+                        <button>Add</button>
+                    </form>
+                </div>
             </div>
         </div>
     )

@@ -5,16 +5,20 @@ import { useSelector } from 'react-redux';
 import { RootState } from './store';
 import AddLinkPrompt from './components/AddLinkPrompt';
 import Signup from './components/SignUp';
+import CardColumn from './components/CardColumn';
+import { useState } from 'react';
 
 function App() {
   const displayLinkPromptValue = useSelector((state: RootState) => state.displayLinkPrompt.value);
 
   return (
     <div className={style.main}>
-          <h1>Display Link Prompt: {displayLinkPromptValue ? 'Yes' : 'No'}</h1>
-          {displayLinkPromptValue ? <AddLinkPrompt/> : false}
-      <div className={style.workLinkContainer}>
+      <CardColumn>
         <WorkLinks/>
+      </CardColumn>
+      <CardColumn><p>df</p></CardColumn>
+      <CardColumn><p>gh</p></CardColumn>
+      <div className={style.workLinkContainer}>
         <Signup/>
       </div>
     </div>

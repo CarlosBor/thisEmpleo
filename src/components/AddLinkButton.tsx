@@ -1,15 +1,27 @@
 import style from './AddLinkButton.module.css';
-import { useDispatch } from 'react-redux';
-import { toggle } from '../store';
+import { useState } from 'react';
+import { AddLinkProps } from '../types/interfaces';
+import AddLinkPrompt from './AddLinkPrompt'
 
-const AddLinkButton = () =>{
-    const dispatch = useDispatch();
-    const handleToggle = () =>{
-        dispatch(toggle())
+const AddLinkButton = (props:AddLinkProps) =>{
+    const [showPrompt, setShowPrompt] = useState(false)
+
+    const hidePrompt = () =>{
+        setShowPrompt(false);
     }
+    const displayPrompt = () =>{
+        setShowPrompt(true);
+    }
+
     return(
-        <div className={style.addLinkButton} onClick={handleToggle}>
-            <span>+</span>
+        <div className={style.addLinkButton}>
+            <AddLinkPrompt
+                type={props.type}
+                visibility={showPrompt}
+                hideVisibility={hidePrompt}
+            />
+            <span onClick={displayPrompt}>+</span>
+            <p>{`${showPrompt ? 'Visible' : 'Oculto'}`}</p>
         </div>
     )
 }

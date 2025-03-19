@@ -8,8 +8,17 @@ export interface WorkLinks {
   link:string;
 }
 
+interface LinkData{
+  link:string,
+  name:string
+}
+
 export interface AddLinkProps {
   type:string
+  data:{
+     id:string,
+     data:Array<LinkData>
+  }
 }
 
 export interface AddLinkPromptProps {

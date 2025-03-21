@@ -8,6 +8,8 @@ FIX PERMISSIONS IN CLOUD FIRESTORE
 6.- Privacidad de datos exclusiva para usuarios
 
 
-THING TO DO:
-I have firebase implemented, now I have to grab the user identifier (uid) when the user logins and 
-set it into redux so I can import it in some other elements to be able to interface with firebase utilities
+Transition BSNS:
+🛑 Default Data Handling
+
+    Right now, your app assumes there's always data in Firestore, but when switching to user-specific storage, new users will have empty collections.
+    Solution: Add a check for snapshot.empty and show a default message like "No data found".

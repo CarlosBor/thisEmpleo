@@ -6,6 +6,8 @@ export interface TextoDocument {
 export interface WorkLinks {
   name:string;
   link:string;
+  id:string;
+  type:string;
 }
 
 interface LinkData{
@@ -14,11 +16,8 @@ interface LinkData{
 }
 
 export interface AddLinkProps {
-  type:string
-  data:{
-     id:string,
-     data:Array<LinkData>
-  }
+  type:string;
+  data:LinkData[];
 }
 
 export interface AddLinkPromptProps {

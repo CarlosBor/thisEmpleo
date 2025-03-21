@@ -13,27 +13,33 @@ function App() {
   const [dataQueries, setDataQueries] = useState({})
   const [dataOffers, setDataOffers] = useState({})
   const [dataSent, setDataSent] = useState({})  
-  const collectionRef = collection(db, "thisEmpleo");
+  const searchQueriesCollection = collection(db, "searchQueries");
+  const storedOffersCollection = collection(db, "storedOffers");
+  const sentOffersCollection = collection(db, "sentOffers");
   
   useEffect(() => {
-    const unsubscribe = onSnapshot(collectionRef, (snapshot) => {
-      const newData = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      // @ts-ignore
-      setDataQueries(newData.find(item=>item.id=="searchQueries"));
-      // @ts-ignore
-      setDataOffers(newData.find(item=>item.id=="storedOffers"));
-      // @ts-ignore
-      setDataSent(newData.find(item=>item.id=="sentOffers"));
-
-      setItems(newData as any); //Woopsie Daisy
-      console.log("Los nuevos datos son: ", newData);
+    const unsubscribeQueries = onSnapshot(searchQueriesCollection, (snapshot) => {
+      setDataQueries(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
     });
-    return () => unsubscribe();
+    const unsubscribeOffers = onSnapshot(storedOffersCollection, (snapshot) => {
+      setDataOffers(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+    });
+    const unsubscribeSentOffers = onSnapshot(sentOffersCollection, (snapshot) => {
+      setDataSent(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+
+    });
+    
+    return () => {
+      unsubscribeQueries();
+      unsubscribeOffers();
+      unsubscribeSentOffers();
+    };
   }, []);
 
+
+
+
+  //I have to make it so each collumn has a different collection, which in turn would make it so I can add more and more documents without so much hoohaa
   return (
     <div className={style.main}>
       <CardColumn>
@@ -51,7 +57,7 @@ function App() {
       <CardColumn>
         <WorkLinks
             type="sentOffers"
-            data={dataOffers}
+            data={dataSent}
           />
       </CardColumn>
       <div className={style.workLinkContainer}>

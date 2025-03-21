@@ -1,5 +1,5 @@
 import { db } from "../../firebaseConfig";
-import { doc, addDoc, setDoc, getDoc, getDocs, collection } from "firebase/firestore";
+import { doc, addDoc, setDoc, getDoc, getDocs, collection, deleteDoc } from "firebase/firestore";
 
 export const saveTextData = async (collectionName:string, text:string) => {
     try {
@@ -60,5 +60,23 @@ export const setNamedDocument = async (collectionName: string, id: string, data:
     console.log("Document saved with custom ID:", id);
   } catch (error) {
     console.error("Error saving document:", error);
+  }
+}
+
+export const addDocument = async (collectionName: string, data: object) => {
+  try {
+    await addDoc(collection(db, collectionName), data);
+    console.log("Document Added!");
+  } catch (error) {
+    console.error("Problem adding document", error);
+  }
+}
+
+export const removeDocument = async (collectionName:string, id:string) => {
+  try{
+    await deleteDoc(doc(db, collectionName, id));
+    console.log("Removed document with id: ", id);
+  }catch(error){
+    console.log("Error deleting document with id: ", id);
   }
 }

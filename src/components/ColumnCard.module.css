@@ -1,0 +1,11 @@
+.columnCard{
+    border-radius:2px;
+    border-color:blue;
+    border-style:solid;
+}
+
+.removeButton{
+    background-color:yellow;
+    height: 40px;
+    width: 40px;
+}

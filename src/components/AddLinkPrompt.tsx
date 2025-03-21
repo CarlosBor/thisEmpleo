@@ -1,7 +1,7 @@
 import style from './AddLinkPrompt.module.css'
 import { useState } from 'react';
 import { AddLinkPromptProps } from '../types/interfaces';
-import { setNamedDocument } from '../api/firebaseDb'
+import { addDocument } from '../api/firebaseDb';
 
 const AddLinkPrompt = (props:AddLinkPromptProps) =>{
     const [formData, setFormData] = useState({
@@ -19,7 +19,7 @@ const AddLinkPrompt = (props:AddLinkPromptProps) =>{
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         //Usage of API
-        setNamedDocument("thisEmpleo", props.type, formData);
+        addDocument(props.type, formData);
         console.log("Submitted Data:", formData);
     };
 

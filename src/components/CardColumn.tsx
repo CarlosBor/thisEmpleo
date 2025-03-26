@@ -1,9 +1,5 @@
-import { ReactNode } from "react";
+import { WrapperProps } from '../types/interfaces';
 import style from './CardColumn.module.css';
-
-interface WrapperProps {
-    children: ReactNode;
-}
 
 const CardColumn: React.FC<WrapperProps>  = ({ children }) => {
   return (
@@ -15,17 +11,3 @@ const CardColumn: React.FC<WrapperProps>  = ({ children }) => {
   );
 };
 export default CardColumn;
-
-
-interface WrapperProps {
-    children: ReactNode;
-  }
-  
-//   const Wrapper: React.FC<WrapperProps> = ({ children }) => {
-//     return (
-//       <div className="wrapper">
-//         <h2>I'm the Wrapper</h2>
-//         <div className="content">{children}</div>
-//       </div>
-//     );
-//   };

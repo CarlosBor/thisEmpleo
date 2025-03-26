@@ -9,6 +9,7 @@ const WorkLinks = (props:AddLinkProps) => {
             {Object.keys(props.data).length > 0 ? props.data.map((element:any)=>{
                 return(
                     <ColumnCard
+                        key={element.id}
                         id={element.id}
                         link={element.link}
                         name={element.name}
@@ -18,6 +19,7 @@ const WorkLinks = (props:AddLinkProps) => {
             }): null}
             <AddLinkButton
                 type={props.type}
+                data={props.data}
             />
         </div>
     )

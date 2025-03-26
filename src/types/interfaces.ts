@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface TextoDocument {
   id: string;
   texto: string;
@@ -10,7 +12,7 @@ export interface WorkLinks {
   type:string;
 }
 
-interface LinkData{
+export interface LinkData{
   link:string,
   name:string
 }
@@ -26,3 +28,6 @@ export interface AddLinkPromptProps {
   hideVisibility: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
+export interface WrapperProps {
+  children: ReactNode;
+}

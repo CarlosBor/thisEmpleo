@@ -74,9 +74,12 @@ export const addDocument = async (collectionName: string, data: object) => {
 
 export const removeDocument = async (collectionName:string, id:string) => {
   try{
+    console.log("CollectionName, ", collectionName);
+    console.log("id, ", id);
     await deleteDoc(doc(db, collectionName, id));
     console.log("Removed document with id: ", id);
   }catch(error){
     console.log("Error deleting document with id: ", id);
+    console.log(error);
   }
 }

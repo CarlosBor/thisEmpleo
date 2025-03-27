@@ -13,10 +13,11 @@ function App() {
   const [dataQueries, setDataQueries] = useState<LinkData[]>([]);
   const [dataOffers, setDataOffers] = useState<LinkData[]>([]);
   const [dataSent, setDataSent] = useState<LinkData[]>([]);
+  const [expiredOffers, setExpiredOffers] = useState<LinkData[]>([]);
   const searchQueriesCollection = collection(db, "searchQueries");
   const storedOffersCollection = collection(db, "storedOffers");
   const sentOffersCollection = collection(db, "sentOffers");
-  
+  const expiredOffersCollection = collection(db, "expiredOffers");
   useEffect(() => {
     const unsubscribeQueries = onSnapshot(searchQueriesCollection, (snapshot) => {
       // @ts-ignore
@@ -30,11 +31,16 @@ function App() {
       // @ts-ignore
       setDataSent(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
     });
+    const unsubscribeExpiredOffers = onSnapshot(expiredOffersCollection, (snapshot) => {
+      // @ts-ignore
+      setExpiredOffers(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+    });
     
     return () => {
       unsubscribeQueries();
       unsubscribeOffers();
       unsubscribeSentOffers();
+      unsubscribeExpiredOffers();
     };
   }, []);
 
@@ -57,6 +63,12 @@ function App() {
         <WorkLinks
             type="sentOffers"
             data={dataSent}
+          />
+      </CardColumn>
+      <CardColumn>
+        <WorkLinks
+            type="expiredOffers"
+            data={expiredOffers}
           />
       </CardColumn>
       <div className={style.workLinkContainer}>

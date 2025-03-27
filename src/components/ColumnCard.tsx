@@ -12,7 +12,7 @@ export const ColumnCard = (props:WorkLinks) => {
             <p>{props.id}</p>
             <p>{props.link}</p>
             <p>{props.name}</p>
-            <div className={style.removeButton} /* onClick={removeCard} */>-</div>
+            <div className={style.removeButton} onClick={()=>{removeCard(props.id)}}>-</div>
          </div>
     )
 }

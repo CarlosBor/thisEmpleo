@@ -6,6 +6,7 @@ import { ColumnCard } from './ColumnCard';
 const WorkLinks = (props:AddLinkProps) => {
     return(
         <div className={style.workLinksCard}>
+            <h3>{props.type}</h3>
             {Object.keys(props.data).length > 0 ? props.data.map((element:any)=>{
                 return(
                     <ColumnCard
@@ -13,7 +14,7 @@ const WorkLinks = (props:AddLinkProps) => {
                         id={element.id}
                         link={element.link}
                         name={element.name}
-                        type={element.type}
+                        type={props.type}
                     />
                 )
             }): null}

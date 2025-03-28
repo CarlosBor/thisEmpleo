@@ -1,6 +1,7 @@
 import { db } from "../../firebaseConfig";
 import { doc, addDoc, setDoc, getDoc, getDocs, collection, deleteDoc } from "firebase/firestore";
 
+export const collections = ["searchQueries", "storedOffers", "sentOffers", "expiredOffers"];
 export const saveTextData = async (collectionName:string, text:string) => {
     try {
       await addDoc(collection(db, collectionName), {
@@ -81,5 +82,30 @@ export const removeDocument = async (collectionName:string, id:string) => {
   }catch(error){
     console.log("Error deleting document with id: ", id);
     console.log(error);
+  }
+}
+
+export async function moveDocument(oldCollection:string, newCollection:string, id:string) {
+  const oldDocRef = doc(db, oldCollection, id);
+  const newDocRef = doc(db, newCollection, id);
+
+  try {
+    const docSnap = await getDoc(oldDocRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      
+      // Copy to new collection
+      await setDoc(newDocRef, data);
+      
+      // Delete from old collection
+      await deleteDoc(oldDocRef);
+      
+      console.log(`Document moved from ${oldCollection} to ${newCollection}`);
+    } else {
+      console.log("Document does not exist");
+    }
+  } catch (error) {
+    console.error("Error moving document: ", error);
   }
 }

@@ -9,7 +9,6 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { db } from './../firebaseConfig';
 
 function App() {
-  const [items, setItems] = useState([]);
   const [dataQueries, setDataQueries] = useState<LinkData[]>([]);
   const [dataOffers, setDataOffers] = useState<LinkData[]>([]);
   const [dataSent, setDataSent] = useState<LinkData[]>([]);

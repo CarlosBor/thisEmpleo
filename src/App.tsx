@@ -6,6 +6,7 @@ import CardColumn from './components/CardColumn';
 import { LinkData } from './types/interfaces';
 import { useEffect, useState } from 'react';
 import { collection, onSnapshot } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from './../firebaseConfig';
 
 function App() {
@@ -13,34 +14,50 @@ function App() {
   const [dataOffers, setDataOffers] = useState<LinkData[]>([]);
   const [dataSent, setDataSent] = useState<LinkData[]>([]);
   const [expiredOffers, setExpiredOffers] = useState<LinkData[]>([]);
-  const searchQueriesCollection = collection(db, "searchQueries");
-  const storedOffersCollection = collection(db, "storedOffers");
-  const sentOffersCollection = collection(db, "sentOffers");
-  const expiredOffersCollection = collection(db, "expiredOffers");
+
   useEffect(() => {
-    const unsubscribeQueries = onSnapshot(searchQueriesCollection, (snapshot) => {
-      // @ts-ignore
-      setDataQueries(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+    const auth = getAuth();
+    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        console.log("No user logged in, skipping Firestore subscriptions.");
+        return;
+      }
+
+      const userPath = `users/${user.uid}`;
+      const searchQueriesCollection = collection(db, `${userPath}/searchQueries`);
+      const storedOffersCollection = collection(db, `${userPath}/storedOffers`);
+      const sentOffersCollection = collection(db, `${userPath}/sentOffers`);
+      const expiredOffersCollection = collection(db, `${userPath}/expiredOffers`);
+
+      const unsubscribeQueries = onSnapshot(searchQueriesCollection, (snapshot) => {
+        // @ts-ignore
+        setDataQueries(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+      });
+
+      const unsubscribeOffers = onSnapshot(storedOffersCollection, (snapshot) => {
+        // @ts-ignore
+        setDataOffers(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+      });
+
+      const unsubscribeSentOffers = onSnapshot(sentOffersCollection, (snapshot) => {
+        // @ts-ignore
+        setDataSent(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+      });
+
+      const unsubscribeExpiredOffers = onSnapshot(expiredOffersCollection, (snapshot) => {
+        // @ts-ignore
+        setExpiredOffers(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+      });
+
+      return () => {
+        unsubscribeQueries();
+        unsubscribeOffers();
+        unsubscribeSentOffers();
+        unsubscribeExpiredOffers();
+      };
     });
-    const unsubscribeOffers = onSnapshot(storedOffersCollection, (snapshot) => {
-      // @ts-ignore
-      setDataOffers(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
-    });
-    const unsubscribeSentOffers = onSnapshot(sentOffersCollection, (snapshot) => {
-      // @ts-ignore
-      setDataSent(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
-    });
-    const unsubscribeExpiredOffers = onSnapshot(expiredOffersCollection, (snapshot) => {
-      // @ts-ignore
-      setExpiredOffers(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
-    });
-    
-    return () => {
-      unsubscribeQueries();
-      unsubscribeOffers();
-      unsubscribeSentOffers();
-      unsubscribeExpiredOffers();
-    };
+
+    return () => unsubscribeAuth();
   }, []);
 
   //I have to make it so each collumn has a different collection, which in turn would make it so I can add more and more documents without so much hoohaa

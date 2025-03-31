@@ -89,10 +89,16 @@ function App() {
             data={expiredOffers}
           />
       </CardColumn>
-      <div className={style.workLinkContainer}>
+      <div className={style.loginContainer}>
         <Signup/>
+      </div>
+      <div className={style.cvStorage}>
         <CVStorage/>
+      </div>
+      <div className={style.snippetStorage}>
         <SnippetStorage/>
+      </div>  
+      <div className={style.workLinkContainer}>
       </div>
     </div>
   )

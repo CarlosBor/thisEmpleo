@@ -54,11 +54,6 @@ const Signup = () => {
             <p>{user ? `Logged in as: ${user.email}` : "Not logged in"}</p>
             <button onClick={signOutOfGoogle}>Logout Button</button>
         </>
-        <button onClick={testStorage}>Testing storage</button>
-        <input type="text" name="storage" id="storage" value={infoGuardar} onChange = {handleChange}/>
-        <button onClick={testRetrieval}>Testing retrieval</button>
-        <p>El texto guardado es: {storedText}</p>
-        <p>El texto a guardar es: {infoGuardar}</p>
     </>
   );
 };

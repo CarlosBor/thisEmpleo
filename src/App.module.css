@@ -1,9 +1,19 @@
 .main{
     display:grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
 
 .workLinkContainer{
     grid-column-start: 3;
     grid-column-end: 4;
+}
+
+.loginContainer{
+    position:fixed;
+    top:0;
+    right:0;
+    background-color:red;
+    border-radius:5px;
+    border-style:solid;
+    border-color:black;
 }

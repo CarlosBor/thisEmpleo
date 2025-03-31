@@ -1,11 +1,18 @@
-import { useState } from "react";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { useState, useEffect } from "react";
+import { getStorage, ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 
 const CVStorage = () => {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
-  const [downloadURL, setDownloadURL] = useState<string | null>(null);
+  const [files, setFiles] = useState<string[]>([]);
+
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  useEffect(() => {
+    if (user) fetchUserFiles();
+  }, [user]); // Fetch files when the user is available
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -14,15 +21,8 @@ const CVStorage = () => {
   };
 
   const handleUpload = async () => {
-    if (!file) {
-      alert("Please select a file first.");
-      return;
-    }
-
-    const auth = getAuth();
-    const user = auth.currentUser;
-    if (!user) {
-      alert("You must be logged in to upload files.");
+    if (!file || !user) {
+      alert("Please select a file and log in first.");
       return;
     }
 
@@ -32,14 +32,28 @@ const CVStorage = () => {
 
     try {
       await uploadBytes(fileRef, file);
-      const url = await getDownloadURL(fileRef);
-      setDownloadURL(url);
       alert("File uploaded successfully!");
+      fetchUserFiles(); // Refresh file list after upload
     } catch (error) {
       console.error("Upload failed:", error);
       alert("Error uploading file.");
     } finally {
       setUploading(false);
+    }
+  };
+
+  const fetchUserFiles = async () => {
+    if (!user) return;
+
+    const storage = getStorage();
+    const userFolderRef = ref(storage, `users/${user.uid}/`);
+
+    try {
+      const result = await listAll(userFolderRef);
+      const urls = await Promise.all(result.items.map((item) => getDownloadURL(item)));
+      setFiles(urls);
+    } catch (error) {
+      console.error("Error fetching files:", error);
     }
   };
 
@@ -51,14 +65,20 @@ const CVStorage = () => {
         {uploading ? "Uploading..." : "Upload"}
       </button>
 
-      {downloadURL && (
-        <div>
-          <p>Download your CV:</p>
-          <a href={downloadURL} target="_blank" rel="noopener noreferrer">
-            {file?.name}
-          </a>
-        </div>
-      )}
+      <h3>My Uploaded CVs:</h3>
+        <ul>
+          {files.map((url, index) => {
+            const decodedFilename = decodeURIComponent(url.split("/").pop()?.split("?")[0] || "Download File");
+            console.log(decodedFilename);
+            return (
+              <li key={index}>
+                <a href={url} target="_blank" rel="noopener noreferrer">
+                  {decodedFilename.split("/")[decodedFilename.split("/").length-1] || "No uploaded CVs"}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
     </div>
   );
 };

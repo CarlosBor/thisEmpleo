@@ -9,7 +9,9 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from './../firebaseConfig';
 import CVStorage from './components/CVStorage';
-
+import SnippetStorage from './components/SnippetStorage';
+//TODO
+//delete redux stuff??
 function App() {
   const [dataQueries, setDataQueries] = useState<LinkData[]>([]);
   const [dataOffers, setDataOffers] = useState<LinkData[]>([]);
@@ -90,6 +92,7 @@ function App() {
       <div className={style.workLinkContainer}>
         <Signup/>
         <CVStorage/>
+        <SnippetStorage/>
       </div>
     </div>
   )

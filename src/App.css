@@ -1,3 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
+
 body{
     margin:0;
+    font-family: "Inter Tight", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    min-height: 100vh;
+    min-width: 100vw;
+    background: rgb(10,33,15);
+    background: linear-gradient(130deg, rgba(10,33,15,1) 0%, rgba(20,89,29,1) 42%); 
 }
+

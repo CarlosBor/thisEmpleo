@@ -10,6 +10,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from './../firebaseConfig';
 import CVStorage from './components/CVStorage';
 import SnippetStorage from './components/SnippetStorage';
+
 //TODO
 //delete redux stuff??
 function App() {
@@ -18,6 +19,13 @@ function App() {
   const [dataSent, setDataSent] = useState<LinkData[]>([]);
   const [expiredOffers, setExpiredOffers] = useState<LinkData[]>([]);
 
+  const [displayLogin, setDisplayLogin] = useState(false);
+  const [displayCv, setDisplayCv] = useState(false);
+  const [displayLetter, setDisplayLetter] = useState(false);
+  
+  const toggleVisible = (state, setState) =>{
+    setState(!state);
+  }
   useEffect(() => {
     const auth = getAuth();
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
@@ -89,17 +97,18 @@ function App() {
             data={expiredOffers}
           />
       </CardColumn>
-      <div className={style.loginContainer}>
+      <div className={`${style.loginContainer} ${displayLogin ? style.active : ''}`}>
+        <div onClick={()=>{toggleVisible(displayLogin, setDisplayLogin)}} className={style.avatarIcon}>👤</div>
         <Signup/>
       </div>
-      <div className={style.cvStorage}>
+      <div className={`${style.cvStorage} ${displayCv ? style.active : ''}`}>
+        <div onClick={()=>{toggleVisible(displayCv, setDisplayCv)}} className={style.cvIcon}>📄</div>
         <CVStorage/>
       </div>
-      <div className={style.snippetStorage}>
+      <div className={`${style.snippetStorage} ${displayLetter ? style.active : ''}`}>
+        <div onClick={()=>{toggleVisible(displayLetter, setDisplayLetter)}} className={style.letterIcon}>✉️</div>
         <SnippetStorage/>
       </div>  
-      <div className={style.workLinkContainer}>
-      </div>
     </div>
   )
 }

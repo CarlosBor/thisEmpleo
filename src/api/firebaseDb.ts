@@ -2,9 +2,6 @@ import { db } from "../../firebaseConfig";
 import { doc, addDoc, setDoc, getDoc, getDocs, collection, deleteDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
-//Get to implementing personal data my boyyyy
-//https://chatgpt.com/c/67e682c3-ab64-800f-9cf5-24d56683818c
-
 export const collections = ["searchQueries", "storedOffers", "sentOffers", "expiredOffers"];
 export const saveTextData = async (collectionName:string, text:string) => {
   const user = getAuth().currentUser;

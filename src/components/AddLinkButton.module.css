@@ -4,12 +4,24 @@
     display:flex;
     justify-content: center;
     align-items: center;
-    border-radius:30px;
-    border-color:black;
-    border-style:dashed;
+    border-radius:0px 0px 30px 30px;
     box-sizing: border-box;
+    cursor: pointer;
 }
 
 .addLinkButton>span{
-    font-size:56px;
+    font-size:24px;
+}
+
+.buttonText{
+    height:100%;
+    width:100%;
+    display:flex;
+    justify-content: center;
+    align-items:center;
+}
+
+.buttonText:hover{
+    background-color:#709192;
+    border-radius:0px 0px 30px 30px;
 }

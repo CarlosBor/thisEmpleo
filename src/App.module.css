@@ -1,6 +1,7 @@
 .main{
     display:grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-column-gap: 15px;
 }
 
 .workLinkContainer{
@@ -8,12 +9,48 @@
     grid-column-end: 4;
 }
 
+
 .loginContainer{
     position:fixed;
     top:0;
-    right:0;
+    right:-340px;
+    padding-right:2em;
     background-color:red;
     border-radius:5px;
     border-style:solid;
     border-color:black;
+    display:grid;
+    grid-template-columns: 1fr 5fr;
+    transition: right 0.3s ease-in-out; 
+}
+
+.avatarIcon, .cvIcon, .letterIcon{
+    font-size:3em;
+    cursor:pointer;
+}
+
+.cvStorage{
+    position:fixed;
+    top: 150px;
+    right:-230px;
+    background-color:blue;
+    border-radius:5px;
+    border-style:solid;
+    border-color:black;
+    transition: right 0.3s ease-in-out; 
+}
+
+.snippetStorage{
+    position:fixed;
+    top:340px;
+    right:-200px;
+    background-color:orange;
+    border-radius:5px;
+    border-style:solid;
+    border-color:black;
+    transition: right 0.3s ease-in-out; 
+}
+
+.active{
+    right:0;
 }

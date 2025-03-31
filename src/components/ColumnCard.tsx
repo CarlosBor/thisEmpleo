@@ -36,17 +36,19 @@ export const ColumnCard = (props:WorkLinks) => {
             <p>{props.id}</p>
             <p>{props.link}</p>
             <p>{props.name}</p>
-            <div className={style.removeButton} onClick={()=>{removeCard(props.id)}}>---</div>
-            {(position==0) ? "" : 
-                <>
-                    {!(position>1) ? "" : 
+            <div className={style.cardButtons}>
+                {(position==0 && !(position>1)) ? "" : 
+                    <>
                         <div className={style.moveButton} onClick={()=>{moveCardLeft(props.id)}}>&lt;&lt;&lt;</div>
-                    }
-                    {!(position<collections.length-1) ? "" :
+                    </>
+                }
+                <div className={style.removeButton} onClick={()=>{removeCard(props.id)}}>---</div>
+                {(position==0 && !(position>1)) ? "" : 
+                    <>
                         <div className={style.moveButton} onClick={()=>{moveCardRight(props.id)}}>&gt;&gt;&gt;</div>                    
-                    }
-                </>
-            }
+                    </>
+                }
+            </div>
          </div>
     )
 }

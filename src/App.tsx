@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { collection, onSnapshot } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from './../firebaseConfig';
+import CVStorage from './components/CVStorage';
 
 function App() {
   const [dataQueries, setDataQueries] = useState<LinkData[]>([]);
@@ -60,7 +61,6 @@ function App() {
     return () => unsubscribeAuth();
   }, []);
 
-  //I have to make it so each collumn has a different collection, which in turn would make it so I can add more and more documents without so much hoohaa
   return (
     <div className={style.main}>
       <CardColumn>
@@ -89,6 +89,7 @@ function App() {
       </CardColumn>
       <div className={style.workLinkContainer}>
         <Signup/>
+        <CVStorage/>
       </div>
     </div>
   )

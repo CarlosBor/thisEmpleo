@@ -1,0 +1,43 @@
+.backDrop{
+    position:fixed;
+    top:0;
+    left:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    width:100vw;
+    height:100vh;
+    z-index:2;
+    background-color:rgba(100,100,100,0.5)
+}
+
+.snippetWrapper{
+    background-color: brown;
+    border-radius:15px;
+    padding:25px;
+}
+.snippetStorage{
+    height:600px;
+    width:600px;
+    display:grid;
+    grid-template-columns:1fr 5fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.snippetControls{
+    background-color:brown;
+}
+
+.snippetText{
+    grid-column-start:2;
+    grid-column-end: 3;
+    grid-row-start:1;
+    grid-row-end:6;
+}
+
+.activeSnippet{
+    border-radius:5px;
+    border-color:red;
+    border-style:solid;
+}

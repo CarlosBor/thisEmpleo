@@ -107,7 +107,7 @@ function App() {
       </div>
       <div className={`${style.snippetStorage} ${displayLetter ? style.active : ''}`}>
         <div onClick={()=>{toggleVisible(displayLetter, setDisplayLetter)}} className={style.letterIcon}>✉️</div>
-        <SnippetStorage/>
+        {displayLetter ? <SnippetStorage toggleSnippetStorage={()=> toggleVisible(displayLetter, setDisplayLetter)}/> : ''}
       </div>  
     </div>
   )

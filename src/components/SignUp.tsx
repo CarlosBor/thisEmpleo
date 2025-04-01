@@ -36,7 +36,7 @@ const Signup = () => {
   return (
     <>
         <>
-            <p>{!user ?
+            <span>{!user ?
                       <button className={style.gsimaterialbutton} onClick={SignUpWithGoogle}>
                       <div className={style.gsimaterialbuttonstate}></div>
                       <div className={style.gsimaterialbuttoncontentwrapper}>
@@ -57,7 +57,7 @@ const Signup = () => {
                         <p>Logged in as {user.email}</p>
                         <button className={style.signOutButton} onClick={signOutOfGoogle}>Logout</button>
                       </div>
-                    }</p>
+                    }</span>
             
         </>
     </>

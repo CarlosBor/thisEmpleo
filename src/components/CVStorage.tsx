@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getStorage, ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
 import { getAuth } from "firebase/auth";
-
+import style from './CVStorage.module.css';
 const CVStorage = () => {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -59,20 +59,19 @@ const CVStorage = () => {
 
   return (
     <div>
-      <h2>Upload Your CV</h2>
+      <h2>CV Storage</h2>
       <input type="file" onChange={handleFileChange} />
       <button onClick={handleUpload} disabled={uploading}>
         {uploading ? "Uploading..." : "Upload"}
       </button>
 
-      <h3>My Uploaded CVs:</h3>
+      <h3>Uploaded:</h3>
         <ul>
           {files.map((url, index) => {
             const decodedFilename = decodeURIComponent(url.split("/").pop()?.split("?")[0] || "Download File");
-            console.log(decodedFilename);
             return (
-              <li key={index}>
-                <a href={url} target="_blank" rel="noopener noreferrer">
+              <li key={index} className={style.listItems}>
+                <a href={url} className={style.downloadLink} target="_blank" rel="noopener noreferrer">
                   {decodedFilename.split("/")[decodedFilename.split("/").length-1] || "No uploaded CVs"}
                 </a>
               </li>

@@ -1,15 +1,18 @@
 // @ts-nocheck
 import { useState, useEffect } from "react";
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import style from './SnippetStorage.module.css';
+import { SnippetStorageProps } from "../types/interfaces";
 
-const SnippetStorage = () => {
+const SnippetStorage = (props:SnippetStorageProps) => {
   const [snippets, setSnippets] = useState([]);
+  const [selectedSnippetId, setSelectedSnippetId] = useState(null);
   const [newSnippet, setNewSnippet] = useState("");
   const db = getFirestore();
   const auth = getAuth();
   const user = auth.currentUser;
-  const MAX_SNIPPETS = 3;
+  const MAX_SNIPPETS = 5;
 
   useEffect(() => {
     if (user) {
@@ -30,7 +33,7 @@ const SnippetStorage = () => {
       return;
     }
     if (snippets.length >= MAX_SNIPPETS) {
-      alert("You can only store up to 3 snippets.");
+      alert(`You can only store up to ${MAX_SNIPPETS} snippets.`);
       return;
     }
     try {
@@ -43,6 +46,7 @@ const SnippetStorage = () => {
   };
 
   const deleteSnippet = async (id) => {
+    console.log(id);
     if (!user) return;
     try {
       await deleteDoc(doc(db, `users/${user.uid}/snippets`, id));
@@ -52,20 +56,49 @@ const SnippetStorage = () => {
     }
   };
 
+  const snippetButtonHandler = (snippet) =>{
+    setNewSnippet(snippet.content);
+    setSelectedSnippetId(snippet.id);
+  }
+
+  const overWriteSnippet = async () => {
+    if (!user || !selectedSnippetId) {
+      alert("Select a snippet to overwrite.");
+      return;
+    }
+    try {
+      const snippetRef = doc(db, `users/${user.uid}/snippets`, selectedSnippetId);
+      await updateDoc(snippetRef, { content: newSnippet, updatedAt: new Date() });
+      fetchSnippets();
+    } catch (error) {
+      console.error("Error updating snippet:", error);
+    }
+  };
+  
+
   return (
-    <div>
-      <h2>Saved Snippets</h2>
-      <textarea value={newSnippet} onChange={(e) => setNewSnippet(e.target.value)} placeholder="Enter your snippet here..." />
-      <button onClick={saveSnippet} disabled={snippets.length >= MAX_SNIPPETS}>Save Snippet</button>
-      <ul>
-        {snippets.map(snippet => (
-          <li key={snippet.id}>
-            <textarea readOnly value={snippet.content} />
-            <button onClick={() => navigator.clipboard.writeText(snippet.content)}>Copy</button>
-            <button onClick={() => deleteSnippet(snippet.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+    <div className={style.backDrop} onClick={()=> props.toggleSnippetStorage()}>
+      <div className={style.snippetWrapper}>
+        <h2>Saved Snippets</h2>
+        <div className={style.snippetStorage} onClick={(e) => e.stopPropagation()}>
+            {snippets.map(snippet => (
+              <span key={snippet.id}>
+                <button
+                  className={`${snippet.id === selectedSnippetId ? style.activeSnippet : ''}`}
+                  onClick={()=> snippetButtonHandler(snippet)}>
+                  {snippet.content.slice(0,20)}
+                </button>
+              </span>
+            ))}
+          <textarea className={style.snippetText} value={newSnippet} onChange={(e) => setNewSnippet(e.target.value)} placeholder="Enter your snippet here..." />  
+        </div>
+        <div className={style.snippetControls}>
+          <button onClick={saveSnippet} disabled={snippets.length >= MAX_SNIPPETS}>Save Snippet</button>
+          <button onClick={() => overWriteSnippet(selectedSnippetId)}>Overwrite Snippet</button>
+          <button onClick={() => navigator.clipboard.writeText(snippet.content)}>Copy Content</button>
+          <button onClick={() => deleteSnippet(selectedSnippetId)}>Delete Snippet</button>
+        </div>
+      </div>
     </div>
   );
 };

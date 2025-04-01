@@ -20,7 +20,9 @@ const AddLinkButton = (props:AddLinkProps) =>{
                 visibility={showPrompt}
                 hideVisibility={hidePrompt}
             />
-            <span onClick={displayPrompt} className={style.buttonText}>+ Add</span>
+            <span onClick={displayPrompt} className={style.addButton}>
+                <span className={style.buttonText}>+ Add</span>
+            </span>
         </div>
     )
 }

@@ -11,17 +11,25 @@
 
 .addLinkButton>span{
     font-size:24px;
+    
 }
 
-.buttonText{
+.addButton{
     height:100%;
     width:100%;
     display:flex;
     justify-content: center;
     align-items:center;
+    border-radius:0px 0px 30px 30px;    
+    
 }
 
-.buttonText:hover{
+.buttonText{
+    transition: background-color 0.2s ease-in;
+    padding:25px;
+    border-radius: 30px;
+}
+
+.addButton:hover>.buttonText{
     background-color:#709192;
-    border-radius:0px 0px 30px 30px;
 }

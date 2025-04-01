@@ -31,3 +31,7 @@ export interface AddLinkPromptProps {
 export interface WrapperProps {
   children: ReactNode;
 }
+
+export interface SnippetStorageProps {
+  toggleSnippetStorage: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+}

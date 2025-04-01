@@ -18,9 +18,7 @@ const AddLinkPrompt = (props:AddLinkPromptProps) =>{
     };
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        //Usage of API
         addDocument(props.type, formData);
-        console.log("Submitted Data:", formData);
     };
 
     return(

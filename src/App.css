@@ -9,7 +9,6 @@ body{
     font-size: 16px;
     min-height: 100vh;
     min-width: 100vw;
-    background: rgb(10,33,15);
-    background: linear-gradient(130deg, rgba(10,33,15,1) 0%, rgba(20,89,29,1) 42%); 
+    background: rgb(7,36,13);
+    background: linear-gradient(130deg, rgba(7,36,13,1) 0%, rgba(36,85,43,1) 49%, rgba(110,195,119,1) 100%); 
 }
-

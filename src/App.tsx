@@ -75,24 +75,28 @@ function App() {
     <div className={style.main}>
       <CardColumn>
         <WorkLinks
+          header="Search Links"
           type="searchQueries"
           data={dataQueries}
         />
       </CardColumn>
       <CardColumn>
         <WorkLinks
+            header="Stored Offers"
             type="storedOffers"
             data={dataOffers}
           />
       </CardColumn>
       <CardColumn>
         <WorkLinks
+            header="Sent Offers"
             type="sentOffers"
             data={dataSent}
           />
       </CardColumn>
       <CardColumn>
         <WorkLinks
+            header="Expired Offers"
             type="expiredOffers"
             data={expiredOffers}
           />

@@ -33,9 +33,7 @@ export const ColumnCard = (props:WorkLinks) => {
 
     return(
         <div className={style.columnCard}>
-            <p>{props.id}</p>
-            <p>{props.link}</p>
-            <p>{props.name}</p>
+            <a className={style.cardLink} href={props.link}>{props.name}</a>
             <div className={style.cardButtons}>
                 {(position==0 && !(position>1)) ? "" : 
                     <>

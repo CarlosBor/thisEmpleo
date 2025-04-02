@@ -37,3 +37,13 @@ export interface WrapperProps {
 export interface SnippetStorageProps {
   toggleSnippetStorage: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
+
+export interface DropItem {
+  id: string;
+  from: string;
+}
+
+export interface DroppableColumnProps {
+  type: string;
+  children: React.ReactNode;
+}

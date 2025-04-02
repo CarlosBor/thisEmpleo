@@ -27,9 +27,10 @@ function App() {
   const [displayCv, setDisplayCv] = useState(false);
   const [displayLetter, setDisplayLetter] = useState(false);
   
-  const toggleVisible = (state, setState) =>{
+  const toggleVisible = (state: boolean, setState: React.Dispatch<React.SetStateAction<boolean>>) => {
     setState(!state);
-  }
+};
+
   
   useEffect(() => {
     const auth = getAuth();

@@ -46,7 +46,6 @@ const SnippetStorage = (props:SnippetStorageProps) => {
   };
 
   const deleteSnippet = async (id) => {
-    console.log(id);
     if (!user) return;
     try {
       await deleteDoc(doc(db, `users/${user.uid}/snippets`, id));

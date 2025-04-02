@@ -10,6 +10,9 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from './../firebaseConfig';
 import CVStorage from './components/CVStorage';
 import SnippetStorage from './components/SnippetStorage';
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import DroppableColumn from './components/DroppableColumn';
 
 //TODO
 //delete redux stuff??
@@ -26,6 +29,7 @@ function App() {
   const toggleVisible = (state, setState) =>{
     setState(!state);
   }
+  
   useEffect(() => {
     const auth = getAuth();
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
@@ -80,27 +84,26 @@ function App() {
           data={dataQueries}
         />
       </CardColumn>
-      <CardColumn>
-        <WorkLinks
-            header="Stored Offers"
-            type="storedOffers"
-            data={dataOffers}
-          />
-      </CardColumn>
-      <CardColumn>
-        <WorkLinks
-            header="Sent Offers"
-            type="sentOffers"
-            data={dataSent}
-          />
-      </CardColumn>
-      <CardColumn>
-        <WorkLinks
-            header="Expired Offers"
-            type="expiredOffers"
-            data={expiredOffers}
-          />
-      </CardColumn>
+      
+      <DndProvider backend={HTML5Backend}>
+        <DroppableColumn type="storedOffers">
+          <CardColumn>
+            <WorkLinks header="Stored Offers" type="storedOffers" data={dataOffers} />
+          </CardColumn>
+        </DroppableColumn>
+
+        <DroppableColumn type="sentOffers">
+          <CardColumn>
+            <WorkLinks header="Sent Offers" type="sentOffers" data={dataSent} />
+          </CardColumn>
+        </DroppableColumn>
+
+        <DroppableColumn type="expiredOffers">
+          <CardColumn>
+            <WorkLinks header="Expired Offers" type="expiredOffers" data={expiredOffers} />
+          </CardColumn>
+        </DroppableColumn>
+      </DndProvider>
       <div className={`${style.loginContainer} ${displayLogin ? style.active : ''}`}>
         <div onClick={()=>{toggleVisible(displayLogin, setDisplayLogin)}} className={style.avatarIcon}>👤</div>
         <Signup/>

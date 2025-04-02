@@ -1,8 +1,6 @@
 import { onAuthStateChanged, getAuth } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { signOutOfGoogle, SignUpWithGoogle } from "../api/fireBaseLogin";
-import { setNamedDocument, getNamedDocument } from "../api/firebaseDb";
-import { TextoDocument } from "../types/interfaces";
 import style from './SignUp.module.css';
 
 const Signup = () => {
@@ -15,23 +13,6 @@ const Signup = () => {
         });
         return () => unsubscribe();
     }, []);
-
-  const [infoGuardar, setInfoGuardar] = useState("");
-  const [storedText, setStoredText] = useState("");
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {value} = e.target;
-    setInfoGuardar(value);
-};
-  const testStorage = () => {
-    setNamedDocument("textos", infoGuardar, {texto:"Wowie"});
-  }
-
-  const testRetrieval = async () => {
-    let contenido = await getNamedDocument<TextoDocument>("textos", infoGuardar)
-    if(contenido!=null){
-      setStoredText(contenido.texto);
-    }
-  }
 
   return (
     <>

@@ -25,9 +25,6 @@ export const SignUpWithGoogle = async () => {
           console.error("Error in user Credentials")
           return
       }
-      const token = credential.accessToken;
-      const user = result.user;
-      console.log(user,token)
       
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error:any) {

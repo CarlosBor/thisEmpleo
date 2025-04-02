@@ -15,6 +15,7 @@ const WorkLinks = (props:AddLinkProps) => {
                         link={element.link}
                         name={element.name}
                         type={props.type}
+                        draggable={props.type !== "searchQueries"}
                     />
                 )
             }): null}

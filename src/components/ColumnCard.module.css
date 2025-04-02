@@ -7,6 +7,10 @@
     box-shadow: 5px 2px rgba(100, 100, 100, 0.5);
 }
 
+.columnCard.draggable:hover{
+    cursor: grab;
+}
+
 .cardLink{
     font-size:1.5em;
     margin-left:1.5em;
@@ -15,9 +19,11 @@
 }
 
 .removeButton{
-    background-color:yellow;
     height: 40px;
     width: 40px;
+    background: url("/delete.svg");
+    background-size: contain;
+    color:red;
 }
 
 .moveButton{
@@ -31,6 +37,7 @@
     justify-content:space-around;
     flex-direction:row;
     text-decoration:none;
+    float:right;
 }
 
 .cardButtons>div{

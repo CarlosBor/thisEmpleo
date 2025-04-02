@@ -10,6 +10,7 @@ export interface WorkLinks {
   link:string;
   id:string;
   type:string;
+  draggable:boolean
 }
 
 export interface LinkData{

@@ -2,6 +2,7 @@ import { WrapperProps } from '../types/interfaces';
 import style from './CardColumn.module.css';
 
 const CardColumn: React.FC<WrapperProps>  = ({ children }) => {
+
   return (
     <div className={style.wrapper}>
         <div className={style.content}>
@@ -10,4 +11,5 @@ const CardColumn: React.FC<WrapperProps>  = ({ children }) => {
     </div>
   );
 };
+
 export default CardColumn;

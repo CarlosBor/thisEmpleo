@@ -19,7 +19,7 @@ export interface LinkData{
 }
 
 export interface AddLinkProps {
-  header:string;
+  header?:string;
   type:string;
   data:LinkData[];
 }

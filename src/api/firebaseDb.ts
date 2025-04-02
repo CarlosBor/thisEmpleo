@@ -3,6 +3,7 @@ import { doc, addDoc, setDoc, getDoc, getDocs, collection, deleteDoc } from "fir
 import { getAuth } from "firebase/auth";
 
 export const collections = ["searchQueries", "storedOffers", "sentOffers", "expiredOffers"];
+
 export const saveTextData = async (collectionName:string, text:string) => {
   const user = getAuth().currentUser;
   if (user===null){
@@ -16,7 +17,7 @@ export const saveTextData = async (collectionName:string, text:string) => {
       });
       console.log("Content saved!");
     } catch (error) {
-      console.error("Oh no :_(", error);
+      console.error("Error when saving", error);
     }
   };
 
@@ -110,12 +111,9 @@ export const removeDocument = async (collectionName:string, id:string) => {
     return
   }
   try{
-    console.log("CollectionName, ", `users/${user.uid}/${collectionName}`);
-    console.log("id, ", id);
     await deleteDoc(doc(db, `users/${user.uid}/${collectionName}`, id));
     console.log("Removed document with id: ", id);
   }catch(error){
-    console.log("Error deleting document with id: ", id);
     console.log(error);
   }
 }
@@ -130,16 +128,10 @@ export async function moveDocument(oldCollection:string, newCollection:string, i
   const newDocRef = doc(db, `users/${user.uid}/${newCollection}`, id);
   try {
     const docSnap = await getDoc(oldDocRef);
-
     if (docSnap.exists()) {
       const data = docSnap.data();
-      
-      // Copy to new collection
       await setDoc(newDocRef, data);
-      
-      // Delete from old collection
       await deleteDoc(oldDocRef);
-      
       console.log(`Document moved from ${oldCollection} to ${newCollection}`);
     } else {
       console.log("Document does not exist");

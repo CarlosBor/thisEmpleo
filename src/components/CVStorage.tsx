@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getStorage, ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 import style from './CVStorage.module.css';
+
 const CVStorage = () => {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -12,7 +13,7 @@ const CVStorage = () => {
 
   useEffect(() => {
     if (user) fetchUserFiles();
-  }, [user]); // Fetch files when the user is available
+  }, [user]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -33,7 +34,7 @@ const CVStorage = () => {
     try {
       await uploadBytes(fileRef, file);
       alert("File uploaded successfully!");
-      fetchUserFiles(); // Refresh file list after upload
+      fetchUserFiles();
     } catch (error) {
       console.error("Upload failed:", error);
       alert("Error uploading file.");

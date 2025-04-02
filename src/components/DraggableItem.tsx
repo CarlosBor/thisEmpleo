@@ -1,4 +1,5 @@
 import { useDrag } from "react-dnd";
+import style from './DraggableItem.module.css';
 
 const DraggableItem = ({ id, type, children }) => {
     const [{ isDragging }, drag] = useDrag(() => ({
@@ -10,7 +11,7 @@ const DraggableItem = ({ id, type, children }) => {
     }));
 
     return (
-        <div ref={drag} style={{ opacity: isDragging ? 0.5 : 1 }}>
+        <div ref={drag} className={`${style.draggableItem} ${isDragging ? style.dragging : ""}`}>
             {children}
         </div>
     );

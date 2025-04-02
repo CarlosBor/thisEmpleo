@@ -1,21 +1,22 @@
 import './App.css'
 import style from './App.module.css'
-import WorkLinks from './components/WorkLinks';
-import Signup from './components/SignUp';
-import CardColumn from './components/CardColumn';
-import { LinkData } from './types/interfaces';
+
 import { useEffect, useState } from 'react';
 import { collection, onSnapshot } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { db } from './../firebaseConfig';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+
+import WorkLinks from './components/WorkLinks';
+import Signup from './components/SignUp';
+import CardColumn from './components/CardColumn';
 import CVStorage from './components/CVStorage';
 import SnippetStorage from './components/SnippetStorage';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 import DroppableColumn from './components/DroppableColumn';
 
-//TODO
-//delete redux stuff??
+import { LinkData } from './types/interfaces';
+import { db } from './../firebaseConfig';
+
 function App() {
   const [dataQueries, setDataQueries] = useState<LinkData[]>([]);
   const [dataOffers, setDataOffers] = useState<LinkData[]>([]);

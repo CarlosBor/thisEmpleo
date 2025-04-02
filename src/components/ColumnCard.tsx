@@ -4,16 +4,15 @@ import { removeDocument } from '../api/firebaseDb';
 import DraggableItem from "./DraggableItem";
 
 export const ColumnCard = (props: WorkLinks & { draggable?: boolean }) => {
-    const removeCard = (id: string) => {
-        console.log("🗑️ Removing card with id:", id);
+    const removeCard = () => {
         removeDocument(props.type, props.id);
     };
 
     const cardContent = (
-        <div className={style.columnCard}>
+        <div className={`${style.columnCard} ${props.draggable ? style.draggable : ""}`}>
             <a className={style.cardLink} href={props.link}>{props.name}</a>
             <div className={style.cardButtons}>
-                <div className={style.removeButton} onClick={() => removeCard(props.id)}>---</div>
+                <div className={style.removeButton} onClick={() => removeCard()}></div>
             </div>
         </div>
     );

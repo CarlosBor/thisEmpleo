@@ -13,9 +13,13 @@
 }
 
 .snippetWrapper{
-    background-color: brown;
+    background-color: #5f9ea0;
     border-radius:15px;
-    padding:25px;
+    padding:25px 50px 50px 50px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items: center;
 }
 
 .snippetStorage{
@@ -27,7 +31,11 @@
 }
 
 .snippetControls{
-    background-color:brown;
+    grid-column-start:2;
+    grid-column-end: 3;
+    width:100%;
+    display:flex;
+    justify-content:space-between;
 }
 
 .snippetText{
@@ -35,10 +43,15 @@
     grid-column-end: 3;
     grid-row-start:1;
     grid-row-end:6;
+    font-size:24px;
 }
 
 .activeSnippet{
     border-radius:5px;
     border-color:red;
     border-style:solid;
+}
+
+.snippetSelectorButton{
+    margin-right:15px;
 }

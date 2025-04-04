@@ -27,7 +27,7 @@ export interface AddLinkProps {
 export interface AddLinkPromptProps {
   type:string;
   visibility:boolean;
-  hideVisibility: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  hideVisibility: () => void;
 }
 
 export interface WrapperProps {

@@ -13,3 +13,13 @@
 .listItems{
     list-style:none;
 }
+
+.removeButton{
+    height: 1.5em;
+    width: 1.5em;
+    background: url("/delete.svg");
+    background-size: contain;
+    color:red;
+    display:inline-block;
+    float:right;
+}

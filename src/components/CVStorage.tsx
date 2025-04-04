@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getStorage, ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL, listAll, deleteObject } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 import style from './CVStorage.module.css';
 
@@ -58,6 +58,23 @@ const CVStorage = () => {
     }
   };
 
+
+  const removeFile = async (fileName: string) => {
+    if (!user) return;
+
+    const storage = getStorage();
+    const fileRef = ref(storage, `users/${user.uid}/${fileName}`);
+
+    try {
+      await deleteObject(fileRef);
+      alert("File deleted successfully!");
+      fetchUserFiles();  // Re-fetch the file list after deletion
+    } catch (error) {
+      console.error("Error deleting file:", error);
+      alert("Error deleting file.");
+    }
+  };
+
   return (
     <div>
       <h2>CV Storage</h2>
@@ -70,11 +87,13 @@ const CVStorage = () => {
         <ul>
           {files.map((url, index) => {
             const decodedFilename = decodeURIComponent(url.split("/").pop()?.split("?")[0] || "Download File");
+            const fileName = decodedFilename.split("/")[decodedFilename.split("/").length-1];
             return (
               <li key={index} className={style.listItems}>
                 <a href={url} className={style.downloadLink} target="_blank" rel="noopener noreferrer">
-                  {decodedFilename.split("/")[decodedFilename.split("/").length-1] || "No uploaded CVs"}
+                  {fileName || "No uploaded CVs"}
                 </a>
+                <span className={style.removeButton} onClick={() => removeFile(fileName)}></span>
               </li>
             );
           })}

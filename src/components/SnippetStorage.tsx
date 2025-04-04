@@ -36,6 +36,10 @@ const SnippetStorage = (props:SnippetStorageProps) => {
       alert(`You can only store up to ${MAX_SNIPPETS} snippets.`);
       return;
     }
+    if(newSnippet==""){
+      alert("Write content before saving");
+      return;
+    }
     try {
       await addDoc(collection(db, `users/${user.uid}/snippets`), { content: newSnippet, createdAt: new Date() });
       setNewSnippet("");
@@ -64,6 +68,9 @@ const SnippetStorage = (props:SnippetStorageProps) => {
     if (!user || !selectedSnippetId) {
       alert("Select a snippet to overwrite.");
       return;
+    }else if(newSnippet==""){
+      alert("Write content before saving");
+      return;
     }
     try {
       const snippetRef = doc(db, `users/${user.uid}/snippets`, selectedSnippetId);
@@ -83,19 +90,19 @@ const SnippetStorage = (props:SnippetStorageProps) => {
             {snippets.map(snippet => (
               <span key={snippet.id}>
                 <button
-                  className={`${snippet.id === selectedSnippetId ? style.activeSnippet : ''}`}
+                  className={`${style.snippetSelectorButton} ${snippet.id === selectedSnippetId ? style.activeSnippet : ''}`}
                   onClick={()=> snippetButtonHandler(snippet)}>
                   {snippet.content.slice(0,20)}
                 </button>
               </span>
             ))}
           <textarea className={style.snippetText} value={newSnippet} onChange={(e) => setNewSnippet(e.target.value)} placeholder="Enter your snippet here..." />  
-        </div>
-        <div className={style.snippetControls}>
-          <button onClick={saveSnippet} disabled={snippets.length >= MAX_SNIPPETS}>Save Snippet</button>
-          <button onClick={() => overWriteSnippet(selectedSnippetId)}>Overwrite Snippet</button>
-          <button onClick={() => navigator.clipboard.writeText(snippet.content)}>Copy Content</button>
-          <button onClick={() => deleteSnippet(selectedSnippetId)}>Delete Snippet</button>
+          <div className={style.snippetControls}>
+            <button onClick={saveSnippet} disabled={snippets.length >= MAX_SNIPPETS}>Save Snippet</button>
+            <button onClick={() => overWriteSnippet(selectedSnippetId)}>Overwrite Snippet</button>
+            <button onClick={() => navigator.clipboard.writeText(snippet.content)}>Copy Content</button>
+            <button onClick={() => deleteSnippet(selectedSnippetId)}>Delete Snippet</button>
+          </div>
         </div>
       </div>
     </div>

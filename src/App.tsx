@@ -17,6 +17,8 @@ import DroppableColumn from './components/DroppableColumn';
 import { LinkData } from './types/interfaces';
 import { db } from './../firebaseConfig';
 
+//TODO maquetar ambos modales 
+
 function App() {
   const [dataQueries, setDataQueries] = useState<LinkData[]>([]);
   const [dataOffers, setDataOffers] = useState<LinkData[]>([]);

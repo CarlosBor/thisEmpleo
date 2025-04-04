@@ -18,6 +18,8 @@ const AddLinkPrompt = (props:AddLinkPromptProps) =>{
     };
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        props.hideVisibility();
+        setFormData({name:"", link:""})
         addDocument(props.type, formData);
     };
 
@@ -25,17 +27,17 @@ const AddLinkPrompt = (props:AddLinkPromptProps) =>{
         <div className={`${props.visibility ? '' : style.hidden}`}>
             <div className={style.backDrop} onClick={props.hideVisibility} >
                 <div className={style.addLinkCard} onClick={(e) => e.stopPropagation()}>
-                    <h2>Header</h2>
+                    <h2>Add Link</h2>
                     <form className={style.addLinkForm} onSubmit={handleSubmit}>
-                        <label>
-                            Name:
-                            <input type="text" name="name" value={formData.name} onChange={handleChange} />
+                        <label className={style.addLinkLabel}>
+                            Name
+                            <input type="text" name="name" className={style.addLinkInput} value={formData.name} onChange={handleChange} />
                         </label>
-                        <label>
-                            Link:
-                            <input type="text" name="link" value={formData.link} onChange={handleChange}/>
+                        <label className={style.addLinkLabel}>
+                            Link
+                            <input type="text" name="link"  className={style.addLinkInput} value={formData.link} onChange={handleChange}/>
                         </label>
-                        <button>Add</button>
+                        <button className={style.addLinkButton}>Add</button>
                     </form>
                 </div>
             </div>
